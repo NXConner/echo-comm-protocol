@@ -52,6 +52,13 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				tactical: {
+					green: 'hsl(var(--terminal-green))',
+					cyan: 'hsl(var(--cyber-cyan))',
+					orange: 'hsl(var(--alert-orange))',
+					red: 'hsl(var(--rogue-red))',
+					blue: 'hsl(var(--tactical-blue))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

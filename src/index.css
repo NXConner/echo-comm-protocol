@@ -8,35 +8,53 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* EchoComm OS Tactical Theme */
+    --background: 210 25% 8%;
+    --foreground: 120 100% 85%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 210 25% 10%;
+    --card-foreground: 120 100% 85%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 210 25% 8%;
+    --popover-foreground: 120 100% 85%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 210 25% 8%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 15% 15%;
+    --secondary-foreground: 120 100% 85%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 15% 12%;
+    --muted-foreground: 120 50% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 180 100% 50%;
+    --accent-foreground: 210 25% 8%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 100% 60%;
+    --destructive-foreground: 210 25% 8%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 120 30% 20%;
+    --input: 210 15% 15%;
+    --ring: 120 100% 50%;
 
-    --radius: 0.5rem;
+    /* Tactical Colors */
+    --terminal-green: 120 100% 50%;
+    --cyber-cyan: 180 100% 50%;
+    --alert-orange: 30 100% 60%;
+    --rogue-red: 0 100% 60%;
+    --tactical-blue: 220 100% 60%;
+    
+    /* HUD Elements */
+    --hud-glow: 0 0 20px hsl(var(--terminal-green) / 0.5);
+    --cyber-glow: 0 0 15px hsl(var(--cyber-cyan) / 0.4);
+    --alert-glow: 0 0 15px hsl(var(--alert-orange) / 0.4);
+    
+    /* Gradients */
+    --gradient-tactical: linear-gradient(135deg, hsl(var(--background)), hsl(var(--card)));
+    --gradient-terminal: linear-gradient(90deg, hsl(var(--terminal-green) / 0.1), hsl(var(--cyber-cyan) / 0.1));
+    --gradient-alert: linear-gradient(45deg, hsl(var(--alert-orange) / 0.2), hsl(var(--rogue-red) / 0.2));
+
+    --radius: 0.25rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +118,106 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-mono;
+    background-image: 
+      radial-gradient(circle at 20% 20%, hsl(var(--terminal-green) / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, hsl(var(--cyber-cyan) / 0.05) 0%, transparent 50%);
+  }
+}
+
+@layer components {
+  /* HUD Components */
+  .hud-panel {
+    @apply bg-card border border-primary/30 rounded backdrop-blur-sm;
+    box-shadow: 
+      inset 0 1px 0 hsl(var(--primary) / 0.2),
+      0 0 10px hsl(var(--primary) / 0.1);
+  }
+  
+  .hud-text {
+    @apply text-primary font-mono text-sm tracking-wider;
+    text-shadow: 0 0 5px hsl(var(--primary) / 0.5);
+  }
+  
+  .terminal-text {
+    @apply font-mono text-sm tracking-wide;
+    font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
+  }
+  
+  .status-ring {
+    @apply relative rounded-full border-2 border-primary/50;
+    box-shadow: 
+      0 0 10px hsl(var(--primary) / 0.3),
+      inset 0 0 10px hsl(var(--primary) / 0.1);
+  }
+  
+  .tactical-button {
+    @apply bg-secondary border border-primary/30 text-primary hover:bg-primary/10 transition-all duration-200;
+    box-shadow: 0 0 5px hsl(var(--primary) / 0.2);
+  }
+  
+  .tactical-button:hover {
+    box-shadow: 0 0 15px hsl(var(--primary) / 0.4);
+  }
+  
+  /* Glitch Effects */
+  .glitch {
+    position: relative;
+    animation: glitch 2s infinite;
+  }
+  
+  @keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    10% { transform: translate(-1px, -1px); }
+    20% { transform: translate(1px, 1px); }
+    30% { transform: translate(-1px, 1px); }
+    40% { transform: translate(1px, -1px); }
+    50% { transform: translate(-1px, -1px); }
+    60% { transform: translate(1px, 1px); }
+    70% { transform: translate(-1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+    90% { transform: translate(-1px, -1px); }
+  }
+  
+  /* Terminal Animations */
+  .terminal-cursor::after {
+    content: '_';
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+  }
+  
+  /* Mission Status Indicators */
+  .status-active {
+    @apply text-primary;
+    animation: pulse-green 2s infinite;
+  }
+  
+  .status-alert {
+    @apply text-orange-400;
+    animation: pulse-orange 1.5s infinite;
+  }
+  
+  .status-critical {
+    @apply text-red-400;
+    animation: pulse-red 1s infinite;
+  }
+  
+  @keyframes pulse-green {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  
+  @keyframes pulse-orange {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  @keyframes pulse-red {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
   }
 }
