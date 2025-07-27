@@ -10,22 +10,22 @@ All colors MUST be HSL.
   :root {
     /* EchoComm OS Tactical Theme */
     --background: 210 25% 8%;
-    --foreground: 120 100% 85%;
+    --foreground: 40 15% 92%;
 
     --card: 210 25% 10%;
-    --card-foreground: 120 100% 85%;
+    --card-foreground: 40 15% 92%;
 
     --popover: 210 25% 8%;
-    --popover-foreground: 120 100% 85%;
+    --popover-foreground: 40 15% 92%;
 
     --primary: 30 100% 60%;
     --primary-foreground: 210 25% 8%;
 
     --secondary: 210 15% 15%;
-    --secondary-foreground: 120 100% 85%;
+    --secondary-foreground: 40 15% 92%;
 
     --muted: 210 15% 12%;
-    --muted-foreground: 120 50% 60%;
+    --muted-foreground: 40 15% 72%;
 
     --accent: 180 100% 50%;
     --accent-foreground: 210 25% 8%;
@@ -33,12 +33,12 @@ All colors MUST be HSL.
     --destructive: 0 100% 60%;
     --destructive-foreground: 210 25% 8%;
 
-    --border: 120 30% 20%;
+    --border: 40 15% 25%;
     --input: 210 15% 15%;
-    --ring: 120 100% 50%;
+    --ring: 40 15% 82%;
 
     /* Tactical Colors */
-    --terminal-green: 120 100% 50%;
+    --terminal-green: 40 15% 85%;
     --cyber-cyan: 180 100% 50%;
     --alert-orange: 30 100% 60%;
     --rogue-red: 0 100% 60%;
