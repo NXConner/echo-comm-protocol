@@ -37,67 +37,60 @@ All colors MUST be HSL.
     --input: 210 15% 15%;
     --ring: 40 15% 82%;
 
-    /* Tactical Colors */
-    --terminal-green: 40 15% 85%;
+    /* Enhanced Tactical Colors */
+    --terminal-green: 120 100% 50%;
     --cyber-cyan: 180 100% 50%;
     --alert-orange: 30 100% 60%;
     --rogue-red: 0 100% 60%;
     --tactical-blue: 220 100% 60%;
+    --neon-purple: 270 100% 60%;
+    --plasma-pink: 320 100% 60%;
+    --quantum-violet: 260 100% 70%;
     
-    /* HUD Elements */
+    /* Advanced HUD Elements */
     --hud-glow: 0 0 20px hsl(var(--terminal-green) / 0.5);
     --cyber-glow: 0 0 15px hsl(var(--cyber-cyan) / 0.4);
     --alert-glow: 0 0 15px hsl(var(--alert-orange) / 0.4);
+    --plasma-glow: 0 0 25px hsl(var(--plasma-pink) / 0.6);
+    --quantum-glow: 0 0 20px hsl(var(--quantum-violet) / 0.5);
     
-    /* Gradients */
+    /* Dynamic Gradients */
     --gradient-tactical: linear-gradient(135deg, hsl(var(--background)), hsl(var(--card)));
     --gradient-terminal: linear-gradient(90deg, hsl(var(--terminal-green) / 0.1), hsl(var(--cyber-cyan) / 0.1));
     --gradient-alert: linear-gradient(45deg, hsl(var(--alert-orange) / 0.2), hsl(var(--rogue-red) / 0.2));
+    --gradient-hologram: linear-gradient(45deg, hsl(var(--cyber-cyan) / 0.3), hsl(var(--neon-purple) / 0.3), hsl(var(--plasma-pink) / 0.3));
+    --gradient-matrix: linear-gradient(0deg, transparent, hsl(var(--terminal-green) / 0.1), transparent);
+    --gradient-scan: linear-gradient(90deg, transparent, hsl(var(--cyber-cyan) / 0.5), transparent);
 
     --radius: 0.25rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
-
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
-
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
-
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
-
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
-
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
-
     --accent: 217.2 32.6% 17.5%;
     --accent-foreground: 210 40% 98%;
-
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
@@ -121,17 +114,80 @@ All colors MUST be HSL.
     @apply bg-background text-foreground font-mono;
     background-image: 
       radial-gradient(circle at 20% 20%, hsl(var(--terminal-green) / 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, hsl(var(--cyber-cyan) / 0.05) 0%, transparent 50%);
+      radial-gradient(circle at 80% 80%, hsl(var(--cyber-cyan) / 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 40% 60%, hsl(var(--neon-purple) / 0.03) 0%, transparent 40%);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Matrix Rain Background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--terminal-green) / 0.01) 2px,
+      hsl(var(--terminal-green) / 0.01) 4px
+    );
+    animation: matrix-rain 20s linear infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Scan Lines */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--cyber-cyan) / 0.02) 2px,
+      hsl(var(--cyber-cyan) / 0.02) 4px
+    );
+    animation: scan-lines 2s linear infinite;
+    pointer-events: none;
+    z-index: -1;
   }
 }
 
 @layer components {
-  /* HUD Components */
+  /* Enhanced HUD Components */
   .hud-panel {
-    @apply bg-card border border-primary/30 rounded backdrop-blur-sm;
+    @apply bg-card border border-primary/30 rounded backdrop-blur-sm relative;
     box-shadow: 
       inset 0 1px 0 hsl(var(--primary) / 0.2),
-      0 0 10px hsl(var(--primary) / 0.1);
+      0 0 10px hsl(var(--primary) / 0.1),
+      0 0 20px hsl(var(--cyber-cyan) / 0.05);
+    background: linear-gradient(135deg, 
+      hsl(var(--card) / 0.9), 
+      hsl(var(--card) / 0.95)
+    );
+  }
+
+  .hud-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      transparent, 
+      hsl(var(--cyber-cyan) / 0.5), 
+      transparent
+    );
+    animation: hud-sweep 3s ease-in-out infinite;
   }
   
   .hud-text {
@@ -152,72 +208,302 @@ All colors MUST be HSL.
   }
   
   .tactical-button {
-    @apply bg-secondary border border-primary/30 text-primary hover:bg-primary/10 transition-all duration-200;
+    @apply bg-secondary border border-primary/30 text-primary hover:bg-primary/10 transition-all duration-200 relative overflow-hidden;
     box-shadow: 0 0 5px hsl(var(--primary) / 0.2);
+  }
+
+  .tactical-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent, 
+      hsl(var(--cyber-cyan) / 0.2), 
+      transparent
+    );
+    transition: left 0.5s ease;
   }
   
   .tactical-button:hover {
     box-shadow: 0 0 15px hsl(var(--primary) / 0.4);
   }
-  
-  /* Glitch Effects */
+
+  .tactical-button:hover::before {
+    left: 100%;
+  }
+
+  /* Holographic Effects */
+  .holographic {
+    position: relative;
+    background: linear-gradient(45deg, 
+      hsl(var(--cyber-cyan) / 0.1), 
+      hsl(var(--neon-purple) / 0.1), 
+      hsl(var(--plasma-pink) / 0.1)
+    );
+    backdrop-filter: blur(10px);
+    border: 1px solid hsl(var(--cyber-cyan) / 0.3);
+    box-shadow: 
+      0 0 20px hsl(var(--cyber-cyan) / 0.2),
+      inset 0 0 20px hsl(var(--neon-purple) / 0.1);
+  }
+
+  .holographic::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+      transparent 30%, 
+      hsl(var(--cyber-cyan) / 0.1) 50%, 
+      transparent 70%
+    );
+    animation: hologram-flicker 4s ease-in-out infinite;
+  }
+
+  /* Particle System */
+  .particle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: hsl(var(--cyber-cyan));
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: float-particles 10s linear infinite;
+  }
+
+  /* Advanced Glitch Effects */
   .glitch {
     position: relative;
     animation: glitch 2s infinite;
   }
-  
-  @keyframes glitch {
-    0%, 100% { transform: translate(0); }
-    10% { transform: translate(-1px, -1px); }
-    20% { transform: translate(1px, 1px); }
-    30% { transform: translate(-1px, 1px); }
-    40% { transform: translate(1px, -1px); }
-    50% { transform: translate(-1px, -1px); }
-    60% { transform: translate(1px, 1px); }
-    70% { transform: translate(-1px, 1px); }
-    80% { transform: translate(1px, -1px); }
-    90% { transform: translate(-1px, -1px); }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
-  
-  /* Terminal Animations */
+
+  .glitch::before {
+    animation: glitch-1 0.5s infinite;
+    color: hsl(var(--rogue-red));
+    z-index: -1;
+  }
+
+  .glitch::after {
+    animation: glitch-2 0.5s infinite;
+    color: hsl(var(--cyber-cyan));
+    z-index: -2;
+  }
+
+  /* Terminal Cursor */
   .terminal-cursor::after {
     content: '_';
     animation: blink 1s infinite;
+    color: hsl(var(--terminal-green));
   }
-  
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    51%, 100% { opacity: 0; }
-  }
-  
-  /* Mission Status Indicators */
+
+  /* Enhanced Status Indicators */
   .status-active {
     @apply text-primary;
-    animation: pulse-green 2s infinite;
+    animation: pulse-enhanced 2s infinite;
+    filter: drop-shadow(0 0 5px hsl(var(--terminal-green) / 0.5));
   }
   
   .status-alert {
     @apply text-orange-400;
-    animation: pulse-orange 1.5s infinite;
+    animation: pulse-alert 1.5s infinite;
+    filter: drop-shadow(0 0 5px hsl(var(--alert-orange) / 0.5));
   }
   
   .status-critical {
     @apply text-red-400;
-    animation: pulse-red 1s infinite;
+    animation: pulse-critical 1s infinite;
+    filter: drop-shadow(0 0 5px hsl(var(--rogue-red) / 0.5));
   }
-  
-  @keyframes pulse-green {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
+
+  /* 3D Transform Effects */
+  .transform-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
   }
-  
-  @keyframes pulse-orange {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+
+  .rotate-3d {
+    animation: rotate-3d 10s linear infinite;
   }
-  
-  @keyframes pulse-red {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+
+  /* Network Grid */
+  .network-grid {
+    background-image: 
+      linear-gradient(hsl(var(--cyber-cyan) / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(var(--cyber-cyan) / 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    animation: grid-pulse 3s ease-in-out infinite;
   }
+
+  /* Data Stream */
+  .data-stream {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .data-stream::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 10px,
+      hsl(var(--terminal-green) / 0.1) 10px,
+      hsl(var(--terminal-green) / 0.1) 11px
+    );
+    animation: data-flow 2s linear infinite;
+  }
+}
+
+/* Enhanced Animations */
+@keyframes matrix-rain {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes scan-lines {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes hud-sweep {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+@keyframes hologram-flicker {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.8; }
+  50% { opacity: 0.9; }
+  75% { opacity: 0.7; }
+}
+
+@keyframes float-particles {
+  0% { 
+    transform: translateY(100vh) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { 
+    transform: translateY(-100px) translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  10% { transform: translate(-2px, -2px); }
+  20% { transform: translate(2px, 2px); }
+  30% { transform: translate(-2px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  50% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  70% { transform: translate(-2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  90% { transform: translate(-2px, -2px); }
+}
+
+@keyframes glitch-1 {
+  0% { clip-path: inset(40% 0 61% 0); }
+  20% { clip-path: inset(92% 0 1% 0); }
+  40% { clip-path: inset(43% 0 1% 0); }
+  60% { clip-path: inset(25% 0 58% 0); }
+  80% { clip-path: inset(54% 0 7% 0); }
+  100% { clip-path: inset(58% 0 43% 0); }
+}
+
+@keyframes glitch-2 {
+  0% { clip-path: inset(25% 0 58% 0); }
+  20% { clip-path: inset(54% 0 7% 0); }
+  40% { clip-path: inset(58% 0 43% 0); }
+  60% { clip-path: inset(40% 0 61% 0); }
+  80% { clip-path: inset(92% 0 1% 0); }
+  100% { clip-path: inset(43% 0 1% 0); }
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+@keyframes pulse-enhanced {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+    filter: drop-shadow(0 0 5px hsl(var(--terminal-green) / 0.5));
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px hsl(var(--terminal-green) / 0.8));
+  }
+}
+
+@keyframes pulse-alert {
+  0%, 100% { 
+    opacity: 1;
+    filter: drop-shadow(0 0 5px hsl(var(--alert-orange) / 0.5));
+  }
+  50% { 
+    opacity: 0.7;
+    filter: drop-shadow(0 0 10px hsl(var(--alert-orange) / 0.8));
+  }
+}
+
+@keyframes pulse-critical {
+  0%, 100% { 
+    opacity: 1;
+    filter: drop-shadow(0 0 5px hsl(var(--rogue-red) / 0.5));
+  }
+  50% { 
+    opacity: 0.8;
+    filter: drop-shadow(0 0 15px hsl(var(--rogue-red) / 1));
+  }
+}
+
+@keyframes rotate-3d {
+  0% { transform: rotateY(0deg) rotateX(0deg); }
+  25% { transform: rotateY(90deg) rotateX(0deg); }
+  50% { transform: rotateY(180deg) rotateX(90deg); }
+  75% { transform: rotateY(270deg) rotateX(0deg); }
+  100% { transform: rotateY(360deg) rotateX(0deg); }
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes data-flow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
