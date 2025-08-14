@@ -1,58 +1,53 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import HUDPanel from '@/components/HUDPanel';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-
-interface Mission {
-  id: string;
-  title: string;
-  description: string;
-  status: 'active' | 'pending' | 'completed' | 'failed';
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  progress: number;
-  assignedAgent: string;
-  deadline: string;
-  objectives: string[];
-}
+import { Mission } from '@/lib/types';
 
 const Missions = () => {
-  const [missions, setMissions] = useState<Mission[]>([
-    {
-      id: 'ALPHA_001',
-      title: 'NETWORK_INFILTRATION',
-      description: 'Penetrate target network infrastructure and extract sensitive data',
-      status: 'active',
-      priority: 'high',
-      progress: 75,
-      assignedAgent: 'ECHO_001',
-      deadline: '2024-07-30',
-      objectives: ['Access main server', 'Extract database', 'Cover tracks']
-    },
-    {
-      id: 'BETA_002',
-      title: 'SURVEILLANCE_OP',
-      description: 'Monitor target location for suspicious activity patterns',
-      status: 'pending',
-      priority: 'medium',
-      progress: 0,
-      assignedAgent: 'ECHO_001',
-      deadline: '2024-08-01',
-      objectives: ['Set up surveillance', 'Monitor 72 hours', 'Report findings']
-    },
-    {
-      id: 'GAMMA_003',
-      title: 'DATA_RECOVERY',
-      description: 'Recover compromised data from secure facility systems',
-      status: 'completed',
-      priority: 'critical',
-      progress: 100,
-      assignedAgent: 'ECHO_001',
-      deadline: '2024-07-25',
-      objectives: ['Locate data cache', 'Decrypt files', 'Verify integrity']
-    }
-  ]);
+  const [missions, setMissions] = useState<Mission[]>(() => {
+    try {
+      const stored = localStorage.getItem('missions');
+      if (stored) return JSON.parse(stored);
+    } catch (_) {}
+    return [
+      {
+        id: 'ALPHA_001',
+        title: 'NETWORK_INFILTRATION',
+        description: 'Penetrate target network infrastructure and extract sensitive data',
+        status: 'active',
+        priority: 'high',
+        progress: 75,
+        assignedAgent: 'ECHO_001',
+        deadline: '2024-07-30',
+        objectives: ['Access main server', 'Extract database', 'Cover tracks']
+      },
+      {
+        id: 'BETA_002',
+        title: 'SURVEILLANCE_OP',
+        description: 'Monitor target location for suspicious activity patterns',
+        status: 'pending',
+        priority: 'medium',
+        progress: 0,
+        assignedAgent: 'ECHO_001',
+        deadline: '2024-08-01',
+        objectives: ['Set up surveillance', 'Monitor 72 hours', 'Report findings']
+      },
+      {
+        id: 'GAMMA_003',
+        title: 'DATA_RECOVERY',
+        description: 'Recover compromised data from secure facility systems',
+        status: 'completed',
+        priority: 'critical',
+        progress: 100,
+        assignedAgent: 'ECHO_001',
+        deadline: '2024-07-25',
+        objectives: ['Locate data cache', 'Decrypt files', 'Verify integrity']
+      }
+    ];
+  });
 
   const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
   const [newMission, setNewMission] = useState({
@@ -62,6 +57,12 @@ const Missions = () => {
     deadline: ''
   });
   const [showNewMissionForm, setShowNewMissionForm] = useState(false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('missions', JSON.stringify(missions));
+    } catch (_) {}
+  }, [missions]);
 
   const getStatusColor = (status: Mission['status']) => {
     switch (status) {
@@ -85,7 +86,6 @@ const Missions = () => {
 
   const createMission = () => {
     if (!newMission.title || !newMission.description) return;
-    
     const mission: Mission = {
       id: `MISSION_${Date.now().toString().slice(-3)}`,
       title: newMission.title.toUpperCase().replace(/\s+/g, '_'),
@@ -97,7 +97,6 @@ const Missions = () => {
       deadline: newMission.deadline,
       objectives: ['Initialize mission parameters', 'Execute primary objective', 'Complete mission report']
     };
-    
     setMissions([mission, ...missions]);
     setNewMission({ title: '', description: '', priority: 'medium', deadline: '' });
     setShowNewMissionForm(false);

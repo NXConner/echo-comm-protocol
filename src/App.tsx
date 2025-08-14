@@ -11,9 +11,10 @@ import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import TacticalCenter from "./pages/TacticalCenter";
 import AdvancedDashboard from "./pages/AdvancedDashboard";
-
+import CreateMission from "./pages/CreateMission";
+ 
 const queryClient = new QueryClient();
-
+ 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
@@ -33,6 +34,7 @@ const App = () => (
                 <Route path="/" element={<AdvancedDashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/missions" element={<Missions />} />
+                <Route path="/missions/new" element={<CreateMission />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/tactical" element={<TacticalCenter />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -45,5 +47,5 @@ const App = () => (
     </ThemeProvider>
   </QueryClientProvider>
 );
-
+ 
 export default App;
