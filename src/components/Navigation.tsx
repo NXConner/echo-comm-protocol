@@ -12,6 +12,7 @@ const Navigation = () => {
     { path: '/', label: 'TACTICAL_HUB', icon: '◉' },
     { path: '/dashboard', label: 'CLASSIC_HUD', icon: '▣' },
     { path: '/missions', label: 'MISSIONS', icon: '▲' },
+    { path: '/missions/new', label: 'CREATE', icon: '+' },
     { path: '/tactical', label: 'TACTICAL_CENTER', icon: '◈' },
     { path: '/profile', label: 'AGENT', icon: '●' },
   ];
